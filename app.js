@@ -1,29 +1,39 @@
 const adduser = document.getElementById("addUser");
+const btnText = adduser.innerText;
 const username = document.getElementById("username");
-const recordsDisplay = document.getElementById("records")
+const recordsDisplay = document.getElementById("records");
 let userArray = [];
+let edit_id = null;
 let obj = localStorage.getItem("users");
 if (obj != null) {
   userArray = JSON.parse(obj);
 }
-DisplayInfo()
+DisplayInfo();
 
 adduser.onclick = () => {
-  const name = username.value;
+    const name = username.value;
+    if(edit_id!= null){
+    userArray.splice(edit_id,1,{ 'name': name })
+    edit_id = null
+    }else{
+ 
+        userArray.push({ 'name': name });
+    }
 
-  userArray.push({ name: name });
   SaveInfo(userArray);
   username.value = "";
-  DisplayInfo()
+
+  adduser.innerText = btnText;
 };
 
 function SaveInfo(userArray) {
   let str = JSON.stringify(userArray);
   localStorage.setItem("users", str);
+  DisplayInfo();
 }
 function DisplayInfo() {
   let statement = "";
-  userArray.forEach((user,i) => {
+  userArray.forEach((user, i) => {
     statement += ` <tr>
    <th scope="row">${i + 1}</th>
    <th>${user.name}</th>
@@ -34,11 +44,15 @@ function DisplayInfo() {
    </th>
  </tr>`;
   });
-  recordsDisplay.innerHTML = statement
+  recordsDisplay.innerHTML = statement;
 }
 function DeleteInfo(id) {
-    alert(id)
+  userArray.splice(id, 1);
+  SaveInfo(userArray);
+
 }
 function EditInfo(id) {
-    alert(id)
+  edit_id = id;
+  username.value = userArray[id].name;
+  adduser.innerText = "Save Changes";
 }
