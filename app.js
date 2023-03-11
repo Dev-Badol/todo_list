@@ -38,8 +38,8 @@ function DisplayInfo() {
    <th scope="row">${i + 1}</th>
    <th>${user.name}</th>
    <th class="d-flex gap-2">
-   <h6 onclick=(EditInfo(${i}))>edit</h6>
-   <h6 onclick=(DeleteInfo(${i}))>delete</h6>
+   <h6  role="button" onclick=(EditInfo(${i}))>edit</h6>
+   <h6  role="button" onclick=(DeleteInfo(${i}))>delete</h6>
 
    </th>
  </tr>`;
